@@ -25,12 +25,9 @@ mod tictactoe {
         NotEnoughMoney,
     }
 
-    /// Defines the storage of your contract.
-    /// Add new fields to the below struct in order
-    /// to add new static storage fields to your contract.
     #[ink(storage)]
     pub struct TicTacToe {
-        /// Stores a single `bool` value on the storage.
+
         map: Vec<Vec<u8>>,
         turn: u8,
         allowed_players: Vec<AccountId>,
@@ -41,7 +38,7 @@ mod tictactoe {
     }
 
     impl TicTacToe {
-        /// Constructor that initializes the `bool` value to the given `init_value`.
+
         #[ink(constructor)]
         pub fn new() -> Self {
             let mut new_map = Vec::new();
@@ -65,9 +62,7 @@ mod tictactoe {
 
         }
 
-        /// A message that can be called on instantiated contracts.
-        /// This one flips the value of the stored `bool` from `true`
-        /// to `false` and vice versa.
+
         #[ink(message, payable)]
         pub fn join(&mut self, player_number: u8)-> Result<(),Error > {
             if self.started{
@@ -93,13 +88,11 @@ mod tictactoe {
             }
         }
 
-        /// Simply returns the current value of our `bool`.
         #[ink(message)]
         pub fn make_move(&mut self,coord_x: u32, coord_y: u32) -> bool {
             if self.started == false {
                 false;
             }
-            //self.map[coord_x as usize][coord_y as usize] = self.player_number.get(self.env().caller()).unwrap();
             let caller_number = self.player_number.get(self.env().caller()).unwrap();
             *self.map.get_mut(coord_x as usize).unwrap().get_mut(coord_y as usize).unwrap() = caller_number;
 
